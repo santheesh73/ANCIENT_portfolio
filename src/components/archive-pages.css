@@ -1,0 +1,343 @@
+.archive-page {
+  min-height: 100svh;
+  background: #15130f;
+  color: #fbefdd;
+}
+.archive-page ::selection {
+  background: #e9bd83;
+  color: #1c140e;
+}
+.site-header nav [aria-current="page"] {
+  color: var(--gold);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.5rem;
+}
+.archive-width {
+  width: min(100% - clamp(2.5rem, 12vw, 12rem), 76rem);
+  margin-inline: auto;
+}
+.archive-hero {
+  min-height: clamp(28rem, 60svh, 44rem);
+  display: grid;
+  align-items: end;
+  padding: 8rem 0 clamp(2.5rem, 7vh, 5rem);
+  background-color: #221b13;
+  background-size: cover;
+  background-position: center;
+}
+.archive-hero-work {
+  background-image:
+    linear-gradient(90deg, #14110ffb, #14110fd6 33%, #14110f20 76%),
+    linear-gradient(0deg, #15130f, #15130f00 39%), url("/plates/vault-passage.webp");
+  background-position:
+    center,
+    center,
+    center 47%;
+}
+.archive-hero-about {
+  background-image:
+    linear-gradient(90deg, #14110ffb, #14110fd6 33%, #14110f13 80%),
+    linear-gradient(0deg, #15130f, #15130f00 39%), url("/plates/chamber.webp");
+  background-position:
+    center,
+    center,
+    center 45%;
+}
+.archive-hero-contact {
+  background-image:
+    linear-gradient(90deg, #14110ffb, #14110fd7 35%, #14110f17 80%),
+    linear-gradient(0deg, #15130f, #15130f00 39%), url("/plates/frontier-gate.webp");
+  background-position:
+    center,
+    center,
+    center 47%;
+}
+.archive-intro h1 {
+  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  line-height: 0.87;
+  max-width: 10ch;
+  text-wrap: initial;
+  margin: 0 0 1.15rem;
+}
+.archive-intro p {
+  max-width: 43ch;
+  color: #f0e5d2;
+}
+.archive-intro .archive-role {
+  color: #efc48d;
+  font-size: 0.88rem;
+  margin-bottom: 1rem;
+}
+.archive-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.65rem;
+  border-bottom: 1px solid #d0a57199;
+  color: #edd2a9;
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+.archive-text-link:hover {
+  color: #fff0d9;
+  border-color: currentColor;
+}
+.archive-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.6rem 0 1rem;
+}
+.archive-section-heading span {
+  color: #c8b79e;
+  font-size: 0.76rem;
+  white-space: nowrap;
+}
+.archive-section-heading h2,
+.archive-contact-directory h2 {
+  font-size: clamp(2.4rem, 4.9vw, 4rem);
+  margin: 0;
+}
+.archive-work-index li {
+  border-color: #715b42;
+}
+.archive-work-index li:last-child {
+  border-color: #715b42;
+}
+.archive-work-index a {
+  grid-template-columns: clamp(7rem, 17vw, 13rem) minmax(0, 1fr) auto;
+  padding: clamp(0.85rem, 2.5vw, 1.55rem) 0.15rem;
+  gap: clamp(0.85rem, 3vw, 2.7rem);
+}
+.archive-work-index a:hover {
+  background: #211a13;
+}
+.archive-index-art {
+  overflow: hidden;
+  background: #221b13;
+}
+.archive-index-art img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.52;
+  height: auto;
+  object-fit: cover;
+  border: 0;
+}
+.archive-index-copy h3 {
+  font-size: clamp(2.2rem, 4.2vw, 4.05rem);
+  margin-bottom: 0.65rem;
+}
+.archive-index-copy h3 span {
+  display: block;
+  font-family: Geist, Arial, sans-serif;
+  font-size: clamp(0.88rem, 1.42vw, 1.17rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.35;
+  margin-top: 0.35rem;
+  color: #f3dcc0;
+}
+.archive-index-copy p {
+  margin-bottom: 0;
+  max-width: 65ch;
+}
+.archive-index-copy .archive-category {
+  font-size: 0.71rem;
+  color: #d6af81;
+  letter-spacing: 0.055em;
+  margin-bottom: 0.35rem;
+}
+.archive-index-action {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: #edd2a9;
+  font-size: 0.79rem;
+  white-space: nowrap;
+}
+.archive-index-action span {
+  font-size: 1.15rem;
+}
+.archive-page-end {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.3rem 0 3rem;
+}
+.archive-principle,
+.archive-about-details,
+.archive-contact-directory {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(2rem, 6vw, 6rem);
+}
+.archive-principle {
+  align-items: center;
+  padding: 1.6rem 0 clamp(2rem, 6vw, 4.5rem);
+  border-bottom: 1px solid #715b42;
+}
+.archive-principle h2 {
+  margin: 0;
+  font-size: clamp(3.2rem, 6.6vw, 6rem);
+}
+.archive-principle p {
+  max-width: 55ch;
+  margin: 0 0 1rem;
+}
+.archive-process {
+  margin: 0 0 0.6rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  color: #edd2a9;
+  font-size: 0.76rem;
+}
+.archive-process li {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+}
+.archive-process li:not(:last-child)::after {
+  content: "";
+  width: 0.9rem;
+  height: 1px;
+  background: #997a54;
+}
+.archive-about-details {
+  padding: clamp(2rem, 5vw, 4rem) 0 1rem;
+}
+.archive-about-details h2 {
+  font-size: clamp(2.3rem, 4.5vw, 3.6rem);
+  margin: 0 0 1.05rem;
+}
+.archive-degree {
+  font-size: 1.12rem;
+  color: #f6e3ca;
+}
+.archive-skill-list {
+  margin: 0;
+}
+.archive-skill-list div,
+.archive-directory div {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.72rem 0;
+  border-top: 1px solid #715b4280;
+}
+.archive-skill-list dt,
+.archive-directory dt {
+  font-size: 0.78rem;
+  color: #d6b790;
+  padding-top: 0.15rem;
+}
+.archive-skill-list dd,
+.archive-directory dd {
+  margin: 0;
+  color: #f0e5d2;
+  font-size: 0.91rem;
+}
+.archive-contact-directory {
+  grid-template-columns: 1.3fr 0.7fr;
+  padding: 1rem 0 4rem;
+  align-items: start;
+}
+.archive-contact-directory h2 {
+  margin-bottom: 1.05rem;
+}
+.archive-directory {
+  margin: 0;
+}
+.archive-directory dd a {
+  overflow-wrap: anywhere;
+  color: #ffebcf;
+}
+.archive-directory dd a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}
+.archive-directory dd span {
+  color: var(--gold);
+  padding-left: 0.25rem;
+}
+.archive-contact-note {
+  padding-top: 0.7rem;
+}
+.archive-location {
+  margin-bottom: 0.2rem;
+}
+@media (max-width: 740px) {
+  .archive-width {
+    width: calc(100% - 2.4rem);
+  }
+  .archive-hero {
+    min-height: 28rem;
+    padding: 10.5rem 0 2.2rem;
+  }
+  .archive-hero-work {
+    background-image:
+      linear-gradient(0deg, #15130f 1%, #15130fea 36%, #15130f28 100%),
+      url("/plates/vault-passage.webp");
+    background-position:
+      center,
+      54% center;
+  }
+  .archive-hero-about {
+    background-image:
+      linear-gradient(0deg, #15130f 1%, #15130fe8 39%, #15130f2a 100%),
+      url("/plates/mobile-chamber.webp");
+    background-position:
+      center,
+      center 43%;
+  }
+  .archive-hero-contact {
+    background-image:
+      linear-gradient(0deg, #15130f 1%, #15130fee 37%, #15130f28 100%),
+      url("/plates/frontier-gate.webp");
+    background-position:
+      center,
+      62% center;
+  }
+  .archive-intro h1 {
+    font-size: clamp(3.3rem, 12vw, 5.4rem);
+    margin-bottom: 0.75rem;
+  }
+  .archive-intro p {
+    font-size: 0.91rem;
+  }
+  .archive-work-index a {
+    grid-template-columns: clamp(3.85rem, 19vw, 7rem) minmax(0, 1fr);
+    gap: 0.7rem;
+  }
+  .archive-index-art {
+    align-self: start;
+  }
+  .archive-index-copy h3 {
+    font-size: clamp(1.8rem, 8.2vw, 3rem);
+    overflow-wrap: anywhere;
+  }
+  .archive-index-copy .archive-category {
+    font-size: 0.7rem;
+  }
+  .archive-index-action {
+    grid-column: 2;
+    margin-top: -0.15rem;
+  }
+  .archive-principle,
+  .archive-about-details,
+  .archive-contact-directory {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.35rem;
+  }
+  .archive-directory div,
+  .archive-skill-list div {
+    grid-template-columns: 4.1rem minmax(0, 1fr);
+    gap: 0.65rem;
+  }
+  .archive-contact-note {
+    padding-top: 0;
+  }
+}

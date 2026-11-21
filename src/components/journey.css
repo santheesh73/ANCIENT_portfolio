@@ -1,0 +1,323 @@
+.expedition {
+  --cinema-ink: #100e0c;
+  --cinema-ivory: #fff2dc;
+  color: var(--cinema-ivory);
+}
+html:has(.expedition) {
+  scroll-padding-top: 0;
+}
+body:has(.expedition) .site-header {
+  background: linear-gradient(#100e0cef, #100e0c00);
+  border-bottom: 0;
+  padding-inline: clamp(1rem, 4vw, 4.5rem);
+  min-height: 4.6rem;
+}
+.expedition .backdrop .scene-still {
+  background-image: url("/plates/frontier.webp");
+}
+.expedition [data-shot="observatory"] .scene-still {
+  background-image: url("/plates/outer-observatory.webp");
+}
+.expedition [data-shot="philosophy"] .scene-still {
+  background-image: url("/plates/chamber.webp");
+}
+.expedition [data-shot="passage"] .scene-still {
+  background-image: url("/plates/vault-passage.webp");
+}
+.expedition [data-shot="gallery"] .scene-still,
+.expedition [data-shot^="exhibit-"] .scene-still {
+  background-image: url("/plates/vault.webp");
+}
+.expedition [data-shot="contact"] .scene-still {
+  background-image: url("/plates/journey-gate.webp");
+}
+.landmark {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+  padding: 8rem clamp(1.3rem, 6vw, 7rem) clamp(5.5rem, 11vh, 8rem);
+}
+.expedition-opening {
+  text-align: center;
+  justify-items: center;
+  padding-bottom: clamp(5.2rem, 11vh, 8rem);
+}
+.opening-copy {
+  min-width: 0;
+}
+.opening-copy h1 {
+  font-size: clamp(4rem, 10.4vw, 10rem);
+  letter-spacing: -0.04em;
+  line-height: 0.75;
+  text-shadow: 0 4px 30px #0e0b0b99;
+}
+.opening-copy h1 em {
+  font-size: 0.76em;
+  color: #f1c491;
+}
+.opening-byline {
+  margin: 1.45rem 0 0.95rem;
+  color: var(--cinema-ivory);
+  font-size: 0.84rem;
+  letter-spacing: 0.11em;
+}
+.opening-byline span {
+  padding: 0 0.3rem;
+  color: var(--gold);
+}
+.expedition-link {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  gap: 0.7rem;
+  min-height: 2.75rem;
+  color: #f5d8ab;
+  font-size: 0.83rem;
+  font-weight: 500;
+  border-bottom: 1px solid #e0b884a0;
+  padding-inline: 0.2rem;
+}
+.expedition-link:hover {
+  color: #fff8e9;
+  border-color: #fff8e9;
+}
+.expedition-link span {
+  font-size: 1rem;
+}
+.landmark-copy {
+  width: min(100%, 42rem);
+  text-shadow: 0 2px 20px #120e0ccc;
+}
+.landmark h2 {
+  font-size: clamp(3rem, 7vw, 7rem);
+  line-height: 0.89;
+  margin-bottom: 0.75rem;
+}
+.landmark p {
+  color: #f0e3d0;
+  max-width: 46ch;
+}
+.expedition-opening p {
+  max-width: none;
+}
+.observatory-stop .landmark-copy {
+  justify-self: end;
+}
+.passage-stop {
+  justify-items: center;
+  text-align: center;
+}
+.passage-stop p {
+  margin-inline: auto;
+}
+.passage-stop .expedition-link {
+  margin-inline: 0.55rem;
+}
+.artifact-stop h2 {
+  font-size: clamp(2.5rem, 5.6vw, 5.8rem);
+}
+.artifact-actions {
+  display: flex;
+  column-gap: 1.3rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.artifact-actions .quiet-action {
+  font-family: inherit;
+  font-size: 0.8rem;
+}
+.final-stop {
+  align-items: center;
+  padding-block: clamp(5.35rem, 12svh, 8rem) clamp(5.35rem, 12svh, 8rem);
+}
+.final-stop .landmark-copy {
+  width: min(100%, 48vw, 40rem);
+}
+.final-stop h2 {
+  font-size: clamp(3.3rem, 6.3vw, 6.25rem);
+  line-height: 0.94;
+}
+.final-stop .actions {
+  margin-top: 1.1rem;
+}
+.final-stop .motto {
+  margin-bottom: 0;
+}
+.final-stop p.eyebrow {
+  display: none;
+}
+.route-outro {
+  font-size: 0.88rem;
+}
+.route-progress {
+  position: fixed;
+  z-index: 5;
+  inset: auto 0 0;
+  height: 2px;
+  background: #e5c394;
+  transform: scaleX(var(--route-progress, 0));
+  transform-origin: left;
+  pointer-events: none;
+}
+.route-controls {
+  z-index: 4;
+  position: fixed;
+  bottom: 0;
+  inset-inline: 0;
+  padding: 0.55rem clamp(1rem, 4vw, 4.5rem);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  column-gap: 0.6rem;
+  align-items: center;
+  background: linear-gradient(0deg, #100e0cfa, #100e0ce8 65%, #100e0c00);
+  color: #fff2dc;
+  font-size: 0.75rem;
+  min-height: 3.45rem;
+}
+.route-location {
+  text-transform: capitalize;
+  opacity: 0.9;
+}
+.route-controls nav {
+  display: flex;
+  gap: clamp(0.6rem, 2vw, 2rem);
+}
+.route-controls nav a,
+.motion-control {
+  display: flex;
+  align-items: center;
+  min-height: 2.55rem;
+}
+.route-controls nav a[aria-current] {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 0.4rem;
+}
+.motion-control {
+  justify-self: end;
+  white-space: nowrap;
+  color: #efdfc4;
+}
+.motion-control:hover,
+.route-controls a:hover {
+  color: var(--gold);
+}
+@media (max-width: 740px) {
+  .expedition [data-shot="hero"] .scene-still {
+    background-image: url("/plates/mobile-frontier.webp");
+  }
+  body:has(.expedition) .site-header {
+    min-height: 3.8rem;
+  }
+  .opening-copy h1 {
+    font-size: clamp(3.6rem, 14.5vw, 7rem);
+  }
+  .opening-byline {
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+  }
+  .landmark {
+    padding-bottom: 5rem;
+  }
+  .expedition-opening {
+    padding-bottom: 5.6rem;
+  }
+  .landmark h2 {
+    font-size: clamp(2.75rem, 10.8vw, 4.6rem);
+  }
+  .landmark p {
+    font-size: 0.9rem;
+  }
+  .expedition-opening .opening-byline {
+    font-size: 0.7rem;
+  }
+  .route-location {
+    display: none;
+  }
+  .route-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.45rem;
+    font-size: 0.67rem;
+  }
+  .route-controls nav {
+    gap: clamp(0.52rem, 2.7vw, 1rem);
+  }
+  .observatory-stop .landmark-copy {
+    justify-self: start;
+  }
+  .expedition [data-shot="philosophy"] .scene-still {
+    background-image: url("/plates/mobile-chamber.webp");
+  }
+  .expedition [data-shot="gallery"] .scene-still,
+  .expedition [data-shot^="exhibit-"] .scene-still {
+    background-image: url("/plates/mobile-vault.webp");
+  }
+}
+
+.expedition [data-artwork="live"] .world-canvas {
+  transition: none;
+}
+.expedition [data-artwork="live"] .scene-still {
+  visibility: hidden;
+}
+.expedition .backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, #100e0cf9 0%, #100e0c9c 21%, #100e0c25 42%, transparent 67%);
+}
+.expedition [data-shot="philosophy"]::after,
+.expedition [data-shot="gallery"]::after,
+.expedition [data-shot^="exhibit-"]::after,
+.expedition [data-shot="contact"]::after {
+  background:
+    radial-gradient(ellipse at 8% 72%, #100e0ca8, transparent 59%),
+    linear-gradient(0deg, #100e0cf9 0%, #100e0c9c 22%, transparent 65%);
+}
+.artifact-subtitle {
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  line-height: 1.12;
+  margin-bottom: 0.6rem;
+}
+@media (max-width: 740px) {
+  .expedition .backdrop::after,
+  .expedition [data-shot]::after {
+    background: linear-gradient(0deg, #100e0c 0%, #100e0ce8 22%, #100e0c67 47%, transparent 71%);
+  }
+  .landmark .artifact-subtitle {
+    font-size: 1.33rem;
+  }
+}
+@media (max-width: 740px) {
+  .expedition [data-shot="contact"] .scene-still {
+    background-image: url("/plates/mobile-journey-gate.webp");
+  }
+  .landmark.final-stop {
+    align-items: end;
+    padding-block: clamp(6rem, 28svh, 19rem) calc(4.85rem + env(safe-area-inset-bottom));
+  }
+
+  .final-stop .actions .button {
+    padding-inline: 0.7rem;
+    font-size: 0.78rem;
+    gap: 0.4rem;
+  }
+  .final-stop .landmark-copy {
+    width: min(100%, 32rem);
+  }
+  .landmark.final-stop h2 {
+    font-size: clamp(2.6rem, 10vw, 4.65rem);
+  }
+  .final-stop .motto {
+    margin-top: 1.1rem;
+  }
+}
+@media (max-width: 740px) and (max-height: 660px) {
+  .expedition [data-shot="contact"] .scene-still {
+    background-position: center bottom;
+  }
+}
