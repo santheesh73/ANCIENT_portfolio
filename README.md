@@ -1,6 +1,6 @@
 # The Archive of Intelligence
 
-Santheesh S’s cinematic engineering portfolio. This is a standalone Next.js App Router application with a shared React Three Fiber canvas, three original procedural environments, and seven prerendered project case studies.
+Santheesh S’s cinematic engineering portfolio. This is a standalone Next.js App Router application with a shared React Three Fiber canvas, an original procedural world, and seven prerendered project case studies.
 
 ## Run locally
 
@@ -30,6 +30,6 @@ Playwright uses installed Google Chrome. It checks project routing, keyboard acc
 - `src/content/` contains the profile and approved project roster. The case studies link to their repository documentation for engineering evidence.
 - `public/plates/` contains stills captured from the actual WebGL scenes. Browsers without WebGL and visitors with reduced-motion enabled use these images and the complete HTML portfolio.
 
-The homepage opens at the frontier. Scroll or choose a landmark to move the camera through the same scene. Behind the observatory, the armillary chamber leads into a vault where each of the seven projects has its own instrument. Use the bottom navigation to revisit the frontier, chamber, vault, and final gate.
+The homepage opens at the frontier. The road leads to the observatory, Creator Hall, armillary chamber, and Hall of Precision. After the seven project exhibits, the route continues through the Library of Knowledge and Astronomer’s Terrace to the final gate. The bottom navigation provides shortcuts through the journey, and Work opens the case studies directly.
 
-Local Chrome verification uses software WebGL in this environment. The frame rate and interaction latency observed there can differ from results on a hardware-accelerated browser. The case-study images are labeled concept illustrations.
+Local Chrome verification uses software WebGL in this environment. The frame rate and interaction latency observed there can differ from results on a hardware-accelerated browser. The case-study images show exhibits from the 3D archive.

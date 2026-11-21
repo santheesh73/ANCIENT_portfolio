@@ -22,7 +22,7 @@ export function Contact() {
   return (
     <>
       <p className="eyebrow">The final gate</p>
-      <h2>
+      <h2 id="gate-title">
         Let’s build
         <br /> something <em>useful.</em>
       </h2>

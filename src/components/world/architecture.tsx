@@ -236,7 +236,7 @@ export function Chamber({
 export function Atmosphere() {
   return (
     <mesh>
-      <sphereGeometry args={[170, 32, 16]} />
+      <sphereGeometry args={[255, 32, 16]} />
       <shaderMaterial
         side={BackSide}
         vertexShader={`
@@ -302,7 +302,7 @@ export function Observatory({ materials, moving }: { materials: Materials; movin
       <mesh rotation-x={-Math.PI / 2} position-y={-0.2} material={materials.dark} receiveShadow>
         <planeGeometry args={[230, 230]} />
       </mesh>
-      <mesh geometry={terrain} position={[0, 0, -118]} material={materials.dark} dispose={null} />
+      <mesh geometry={terrain} position={[113, 0, -106]} material={materials.dark} dispose={null} />
       <Blocks blocks={exteriorTiles} material={materials.floor} />
       <Blocks blocks={ruin} material={materials.sand} bevel />
       <group position-z={-9}>
@@ -365,21 +365,13 @@ export function Observatory({ materials, moving }: { materials: Materials; movin
 
 const bayRows = [2, ...bayDepths, -35.2, -39.8];
 
-const hallColumns = bayRows
-  .flatMap((z) =>
-    [-5.27, 5.27].map((x) => ({
-      at: [x, 0, z] as [number, number, number],
-      height: 6.93,
-      radius: 0.56,
-    })),
-  )
-  .concat(
-    [-3.59, 3.59].map((x) => ({
-      at: [x, 0, -42] as [number, number, number],
-      height: 4.55,
-      radius: 0.61,
-    })),
-  );
+const hallColumns = bayRows.flatMap((z) =>
+  [-5.27, 5.27].map((x) => ({
+    at: [x, 0, z] as [number, number, number],
+    height: 6.93,
+    radius: 0.56,
+  })),
+);
 export function Hall({ materials, compact }: { materials: Materials; compact: boolean }) {
   return (
     <>
@@ -411,20 +403,42 @@ export function Hall({ materials, compact }: { materials: Materials; compact: bo
           )}
         </group>
       ))}
-      <Arch at={[0, 0, -42]} radius={3.6} spring={4.4} depth={1.4} material={materials.sand} />
-      <mesh geometry={terrain} position={[0, 0, -87]} material={materials.dark} dispose={null} />
-      <mesh rotation-x={-Math.PI / 2} position={[0, -0.21, -56]} material={materials.sand}>
-        <planeGeometry args={[60, 34]} />
-      </mesh>
-      <mesh position={[0, 0.25, -41]} material={materials.edge}>
-        <cylinderGeometry args={[1.17, 1.3, 0.5, 40]} />
-      </mesh>
       {!compact && (
         <>
           <Shafts at={[-4.7, 4, -6]} tilt={-0.65} />
           <Shafts at={[-4.7, 4, -20]} tilt={-0.65} />
         </>
       )}
+    </>
+  );
+}
+
+export function FinalGate({ materials }: { materials: Materials }) {
+  return (
+    <>
+      <Columns
+        columns={[-3.59, 3.59].map((x) => ({ at: [x, 0, 0], height: 4.55, radius: 0.61 }))}
+        materials={materials}
+        pale
+      />
+      <Arch at={[0, 0, 0]} radius={3.6} spring={4.4} depth={1.4} material={materials.sand} />
+      <mesh
+        geometry={terrain}
+        position={[0, -0.45, -45]}
+        material={materials.dark}
+        dispose={null}
+      />
+      <mesh
+        rotation-x={-Math.PI / 2}
+        position={[0, -0.21, -6]}
+        material={materials.sand}
+        receiveShadow
+      >
+        <planeGeometry args={[60, 44]} />
+      </mesh>
+      <mesh position={[0, 0.25, 1]} material={materials.edge}>
+        <cylinderGeometry args={[1.17, 1.3, 0.5, 40]} />
+      </mesh>
     </>
   );
 }

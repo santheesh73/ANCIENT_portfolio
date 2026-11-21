@@ -17,7 +17,7 @@ const connector: Block[] = Array.from({ length: 75 }, (_, i) => {
   const row = Math.floor(i / 5),
     column = i % 5;
   return {
-    position: [(column - 2) * 1.82, -0.115, -43 - row * 0.62],
+    position: [(column - 2) * 1.82, -0.115, -78 - row * 0.62],
     size: [1.79, 0.2, 0.61],
     tone: 0.48 + noise(i * 17) * 0.35,
   };
@@ -109,7 +109,7 @@ export function Frontier({ materials, moving }: { materials: Materials; moving: 
       {[
         { x: 3.7, z: 7, r: 4.8, broken: true },
         { x: 3.6, z: -20.2, r: 3.05, broken: false },
-        { x: 0, z: -44.5, r: 2.75, broken: false },
+        { x: 0, z: -79.5, r: 2.75, broken: false },
       ].map(({ x, z, r, broken }) => {
         const uprights: Block[] = Array.from({ length: 16 }, (_, i) => {
           const side = i < 8 ? -1 : 1,
