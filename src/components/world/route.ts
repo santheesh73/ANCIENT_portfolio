@@ -89,7 +89,7 @@ export const route: Scene[] = [
     eye: [3.15, 3.35, -23.2],
     look: [4.55, 3.05, -32.2],
     mobileAim: [1.6, -1.28],
-    via: [{ eye: [3.72, 3.48, -37.4], look: [1.2, 4.2, -50] }],
+    via: [{ eye: [3.72, 3.48, -36.8], look: [3.05, 3.85, chamberZ - 1] }],
   },
   {
     id: "philosophy",

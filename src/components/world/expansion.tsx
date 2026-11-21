@@ -41,19 +41,23 @@ function wallCourses(x: number, front: number, length: number, courses: number):
   return blocks;
 }
 
-const creatorFloor = tiles(11, 20, 1.14, -19).map((tile) => ({
+const creatorFloor = tiles(11, 15, 1.14, -19).map((tile) => ({
   ...tile,
   position: [tile.position[0] + 3.6, -0.115, tile.position[2]] as Point,
 }));
-const creatorWalls = [...wallCourses(-3.1, -20, 19, 11), ...wallCourses(10.2, -20, 19, 11)];
+const creatorWalls = [...wallCourses(-3.1, -20, 14, 11), ...wallCourses(10.2, -20, 14, 11)];
 const creatorCeiling: Block[] = [-1, 1].flatMap((side) =>
-  [-23.4, -29.8, -36].map((z): Block => ({
+  [
+    { z: -23.4, depth: 5.98 },
+    { z: -30.82, depth: 8.02 },
+  ].map(({ z, depth }): Block => ({
     position: [3.6 + side * 4.14, 7.95, z],
-    size: [4.3, 0.62, 5.98],
+    size: [4.3, 0.62, depth],
     tone: 0.84,
   })),
 );
-const creatorColumns = [-21.5, -27.4, -33.6, -38.4].flatMap((z) =>
+const creatorBayDepths = [-21.5, -27.4, -33.6];
+const creatorColumns = creatorBayDepths.flatMap((z) =>
   [-1.8, 9].map((x) => ({ at: [x, 0, z] as Point, height: 6.8, radius: 0.49 })),
 );
 const chartBurins: Block[] = Array.from({ length: 22 }, (_, i) => ({
@@ -100,7 +104,7 @@ export function CreatorHall({ materials, compact }: RoomProps) {
       <Blocks blocks={creatorWalls} material={materials.sand} />
       <Blocks blocks={creatorCeiling} material={materials.dark} />
       <Columns columns={creatorColumns} materials={materials} pale />
-      {[-21.5, -27.4, -33.6, -38.4].map((z) => (
+      {creatorBayDepths.map((z) => (
         <Arch
           key={z}
           at={[3.6, 0, z]}
@@ -130,7 +134,7 @@ export function CreatorHall({ materials, compact }: RoomProps) {
             <StudyChart at={[0, 0.34, 0]} materials={materials} />
           </group>
         </group>
-        <StudyChart at={[8.98, 3.4, -34.4]} rotation={-Math.PI / 2} materials={materials} />
+        <StudyChart at={[8.98, 3.4, -32]} rotation={-Math.PI / 2} materials={materials} />
         {!compact && (
           <StudyChart at={[-1.73, 3.6, -30.2]} rotation={Math.PI / 2} materials={materials} />
         )}
