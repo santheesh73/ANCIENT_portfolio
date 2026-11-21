@@ -12,25 +12,6 @@ body:has(.expedition) .site-header {
   padding-inline: clamp(1rem, 4vw, 4.5rem);
   min-height: 4.6rem;
 }
-.expedition .backdrop .scene-still {
-  background-image: url("/plates/frontier.webp");
-}
-.expedition [data-shot="observatory"] .scene-still {
-  background-image: url("/plates/outer-observatory.webp");
-}
-.expedition [data-shot="philosophy"] .scene-still {
-  background-image: url("/plates/chamber.webp");
-}
-.expedition [data-shot="passage"] .scene-still {
-  background-image: url("/plates/vault-passage.webp");
-}
-.expedition [data-shot="gallery"] .scene-still,
-.expedition [data-shot^="exhibit-"] .scene-still {
-  background-image: url("/plates/vault.webp");
-}
-.expedition [data-shot="contact"] .scene-still {
-  background-image: url("/plates/journey-gate.webp");
-}
 .landmark {
   position: relative;
   min-height: 100svh;
@@ -205,9 +186,6 @@ body:has(.expedition) .site-header {
   color: var(--gold);
 }
 @media (max-width: 740px) {
-  .expedition [data-shot="hero"] .scene-still {
-    background-image: url("/plates/mobile-frontier.webp");
-  }
   body:has(.expedition) .site-header {
     min-height: 3.8rem;
   }
@@ -248,13 +226,6 @@ body:has(.expedition) .site-header {
   .observatory-stop .landmark-copy {
     justify-self: start;
   }
-  .expedition [data-shot="philosophy"] .scene-still {
-    background-image: url("/plates/mobile-chamber.webp");
-  }
-  .expedition [data-shot="gallery"] .scene-still,
-  .expedition [data-shot^="exhibit-"] .scene-still {
-    background-image: url("/plates/mobile-vault.webp");
-  }
 }
 
 .expedition [data-artwork="live"] .world-canvas {
@@ -293,9 +264,6 @@ body:has(.expedition) .site-header {
   }
 }
 @media (max-width: 740px) {
-  .expedition [data-shot="contact"] .scene-still {
-    background-image: url("/plates/mobile-journey-gate.webp");
-  }
   .landmark.final-stop {
     align-items: end;
     padding-block: clamp(6rem, 28svh, 19rem) calc(4.85rem + env(safe-area-inset-bottom));
@@ -319,5 +287,91 @@ body:has(.expedition) .site-header {
 @media (max-width: 740px) and (max-height: 660px) {
   .expedition [data-shot="contact"] .scene-still {
     background-position: center bottom;
+  }
+}
+
+.expedition .backdrop .scene-still {
+  background-image: var(--scene-plate);
+}
+@media (max-width: 740px) {
+  .expedition .backdrop .scene-still {
+    background-image: var(--scene-plate-mobile, var(--scene-plate));
+  }
+}
+.creator-stop h2,
+.precision-stop h2,
+.library-stop h2,
+.terrace-stop h2 {
+  font-size: clamp(2.8rem, 6vw, 6.25rem);
+}
+.creator-stop .landmark-copy,
+.precision-stop .landmark-copy,
+.library-stop .landmark-copy,
+.terrace-stop .landmark-copy {
+  max-width: 37rem;
+}
+.expedition [data-shot="creator-hall"]::after,
+.expedition [data-shot="precision-hall"]::after,
+.expedition [data-shot="knowledge-library"]::after,
+.expedition [data-shot="scholar-terrace"]::after {
+  background:
+    radial-gradient(ellipse at 0% 80%, #100e0cdd, transparent 66%),
+    linear-gradient(0deg, #100e0cf9 0%, #100e0c92 24%, transparent 65%);
+}
+.precision-process {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem 1.2rem;
+  padding-inline-start: 1.4em;
+  list-style: decimal-leading-zero;
+  margin: 0.95rem 0 0.65rem;
+  max-width: 24rem;
+  font-size: 0.83rem;
+  color: #f1d9b6;
+}
+.precision-process li {
+  padding-inline-end: 0.4rem;
+}
+.library-skills {
+  margin: 0.95rem 0 0.45rem;
+  max-width: 34rem;
+  color: #f5e5ce;
+}
+.library-skills div {
+  display: grid;
+  grid-template-columns: 5.25rem minmax(0, 1fr);
+  gap: 0.6rem;
+  padding: 0.36rem 0;
+  border-top: 1px solid #c7a67566;
+  font-size: 0.77rem;
+  line-height: 1.4;
+}
+.library-skills dt {
+  color: #f8d496;
+  font-weight: 500;
+}
+.library-skills dd {
+  margin: 0;
+}
+@media (max-width: 740px) {
+  .creator-stop h2,
+  .precision-stop h2,
+  .library-stop h2,
+  .terrace-stop h2 {
+    font-size: clamp(2.6rem, 10vw, 4rem);
+  }
+  .creator-stop,
+  .library-stop {
+    padding-top: clamp(6rem, 31svh, 16rem);
+  }
+  .library-skills div {
+    grid-template-columns: 4.6rem minmax(0, 1fr);
+    gap: 0.45rem;
+  }
+  .expedition [data-shot="creator-hall"]::after,
+  .expedition [data-shot="precision-hall"]::after,
+  .expedition [data-shot="knowledge-library"]::after,
+  .expedition [data-shot="scholar-terrace"]::after {
+    background: linear-gradient(0deg, #100e0c 0%, #100e0cf2 32%, #100e0cb0 55%, transparent 80%);
   }
 }

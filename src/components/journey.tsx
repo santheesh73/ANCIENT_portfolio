@@ -1,15 +1,30 @@
 "use client";
 
-import { Component, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  Component,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+  type CSSProperties,
+} from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { profile, stages } from "../content/profile";
+import { profile, skills, stages } from "../content/profile";
 import { projects } from "../content/projects";
 import { Contact } from "./site";
-import { route } from "./world/route";
+import {
+  destinations,
+  processStages,
+  projectSceneId,
+  route,
+  sceneById,
+  type SceneId,
+} from "./world/route";
 import "./journey.css";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -31,18 +46,16 @@ class RenderBoundary extends Component<
   }
 }
 
-const destinations = [route[0], route[3], route[5], route[route.length - 1]];
-
 export function Journey() {
   const scope = useRef<HTMLElement>(null);
   const progress = useRef(0);
-  const [stop, setStop] = useState(0);
+  const [stop, setStop] = useState<SceneId>("hero");
   const [stage, setStage] = useState(1);
   const [ready, setReady] = useState(false);
   const [allowed, setAllowed] = useState(false);
   const [paused, setPaused] = useState(false);
   const failed = useCallback(() => setReady(false), []);
-  const active = route[stop];
+  const active = sceneById.get(stop)!;
 
   useEffect(() => {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -76,11 +89,12 @@ export function Journey() {
     () => {
       const root = scope.current;
       if (!root) return;
-      const stops = Array.from(root.querySelectorAll<HTMLElement>("[data-landmark]"));
+      const stops = route.map(({ id }) => document.getElementById(id));
+      if (stops.some((section) => !section || !root.contains(section))) return;
       const rail = root.querySelector<HTMLElement>(".route-progress");
       let offsets: number[] = [];
       const measure = () => {
-        offsets = stops.map((section) => section.offsetTop);
+        offsets = stops.map((section) => section!.offsetTop);
       };
       const synchronize = (y: number) => {
         const scroll = Math.max(0, y + 2);
@@ -93,7 +107,7 @@ export function Journey() {
         progress.current = index + fraction;
         if (rail)
           rail.style.setProperty("--route-progress", String(progress.current / (route.length - 1)));
-        setStop(fraction > 0.67 ? index + 1 : index);
+        setStop(route[fraction > 0.67 ? index + 1 : index].id);
       };
       measure();
       const trigger = ScrollTrigger.create({
@@ -116,6 +130,16 @@ export function Journey() {
         className="backdrop"
         data-shot={active.id}
         data-artwork={ready ? "live" : "still"}
+        data-plate={active.plate}
+        data-mobile-plate={active.mobilePlate}
+        style={
+          {
+            "--scene-plate": "url(/plates/" + active.plate + ".webp)",
+            "--scene-plate-mobile": active.mobilePlate
+              ? "url(/plates/" + active.mobilePlate + ".webp)"
+              : undefined,
+          } as CSSProperties
+        }
         aria-hidden="true"
       >
         <div className="scene-still" />
@@ -182,8 +206,28 @@ export function Journey() {
           <h2 id="observatory-title">A signal in the ruins</h2>
           <p>
             The outer observatory still catches the light. Follow the road beneath its arch to reach
-            the armillary.
+            the archive.
           </p>
+          <a className="expedition-link" href="#creator-hall">
+            Enter the creator hall <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </section>
+
+      <section
+        className="landmark creator-stop"
+        id="creator-hall"
+        data-landmark
+        aria-labelledby="creator-title"
+      >
+        <div className="landmark-copy">
+          <h2 id="creator-title">
+            Behind the <em>systems.</em>
+          </h2>
+          <p className="artifact-subtitle">Building intelligence with purpose.</p>
+          {profile.bio.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
           <a className="expedition-link" href="#philosophy">
             Enter the chamber <span aria-hidden="true">↓</span>
           </a>
@@ -221,6 +265,34 @@ export function Journey() {
           <p className="stage-description" aria-live="polite">
             {stages[stage].description}
           </p>
+          <a className="expedition-link" href="#precision-hall">
+            Continue to the Hall of Precision <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </section>
+
+      <section
+        className="landmark precision-stop"
+        id="precision-hall"
+        data-landmark
+        aria-labelledby="precision-title"
+      >
+        <div className="landmark-copy">
+          <h2 id="precision-title">
+            From idea to <em>engineered system.</em>
+          </h2>
+          <p>
+            Six instruments trace the work from understanding a problem to improving the system
+            after it ships.
+          </p>
+          <ol className="precision-process">
+            {processStages.map((label) => (
+              <li key={label}>{label}</li>
+            ))}
+          </ol>
+          <a className="expedition-link" href="#passage">
+            Continue to the vault passage <span aria-hidden="true">↓</span>
+          </a>
         </div>
       </section>
 
@@ -246,11 +318,12 @@ export function Journey() {
       </section>
 
       {projects.map((project, i) => {
-        const landmark = route[i + 5];
+        const landmark = projectSceneId(project.slug);
+        const nextProject = projects[i + 1];
         return (
           <section
             className="landmark artifact-stop"
-            id={landmark.id}
+            id={landmark}
             data-landmark
             key={project.slug}
             aria-labelledby={project.slug + "-title"}
@@ -263,8 +336,13 @@ export function Journey() {
                 <Link className="expedition-link" href={"/work/" + project.slug}>
                   Read case study <span aria-hidden="true">↗</span>
                 </Link>
-                <a className="quiet-action" href={"#" + route[i + 6].id}>
-                  {i + 1 === projects.length ? "To the final gate" : "Next instrument"}{" "}
+                <a
+                  className="quiet-action"
+                  href={
+                    "#" + (nextProject ? projectSceneId(nextProject.slug) : "knowledge-library")
+                  }
+                >
+                  {nextProject ? "Next instrument" : "Continue to the library"}{" "}
                   <span aria-hidden="true">↓</span>
                 </a>
               </div>
@@ -273,7 +351,58 @@ export function Journey() {
         );
       })}
 
-      <section className="landmark final-stop" id="contact" data-landmark aria-label="Contact">
+      <section
+        className="landmark library-stop"
+        id="knowledge-library"
+        data-landmark
+        aria-labelledby="library-title"
+      >
+        <div className="landmark-copy">
+          <h2 id="library-title">
+            The tools behind <em>the creations.</em>
+          </h2>
+          <dl className="library-skills">
+            {Object.entries(skills).map(([category, toolkit]) => (
+              <div key={category}>
+                <dt>{category}</dt>
+                <dd>{toolkit}</dd>
+              </div>
+            ))}
+          </dl>
+          <a className="expedition-link" href="#scholar-terrace">
+            Ascend to the terrace <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </section>
+
+      <section
+        className="landmark terrace-stop"
+        id="scholar-terrace"
+        data-landmark
+        aria-labelledby="terrace-title"
+      >
+        <div className="landmark-copy">
+          <h2 id="terrace-title">
+            The <em>foundation.</em>
+          </h2>
+          <p className="artifact-subtitle">{profile.degree}</p>
+          <p>
+            {profile.institute}
+            <br />
+            Expected graduation {profile.graduation}
+          </p>
+          <a className="expedition-link" href="#contact">
+            To the final gate <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </section>
+
+      <section
+        className="landmark final-stop"
+        id="contact"
+        data-landmark
+        aria-labelledby="gate-title"
+      >
         <div className="landmark-copy">
           <p className="route-outro">The archive is open again. What should we build next?</p>
           <Contact />
@@ -286,18 +415,13 @@ export function Journey() {
           {active.name}
         </span>
         <nav aria-label="Journey landmarks">
-          {destinations.map((item, i) => (
+          {destinations.map((item) => (
             <a
               key={item.id}
               href={"#" + item.id}
-              aria-current={
-                stop >= route.indexOf(item) &&
-                (i === destinations.length - 1 || stop < route.indexOf(destinations[i + 1]))
-                  ? "location"
-                  : undefined
-              }
+              aria-current={active.group === item.id ? "location" : undefined}
             >
-              {["Frontier", "Chamber", "Vault", "Gate"][i]}
+              {item.label}
             </a>
           ))}
         </nav>

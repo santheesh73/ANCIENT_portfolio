@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { projects } from "../../src/content/projects";
+import { expansionIds, route } from "../../src/components/world/route";
 
 test("one canvas travels the frontier, armillary and project vault", async ({ page }) => {
   const errors: string[] = [];
@@ -9,21 +10,42 @@ test("one canvas travels the frontier, armillary and project vault", async ({ pa
   const backdrop = page.locator("[data-artwork]");
   await expect(backdrop).toHaveAttribute("data-artwork", "live", { timeout: 20000 });
   await expect(backdrop).toHaveAttribute("data-shot", "hero");
+  await expect(page.locator("[data-landmark]")).toHaveCount(route.length);
   const canvas = await page.locator(".world-canvas canvas").elementHandle();
   await page.getByRole("link", { name: "Enter the frontier" }).click();
   await expect(backdrop).toHaveAttribute("data-shot", "approach");
   await page.getByRole("link", { name: "Follow the road" }).click();
   await expect(backdrop).toHaveAttribute("data-shot", "observatory");
+  await page.getByRole("link", { name: "Enter the creator hall" }).click();
+  await expect(backdrop).toHaveAttribute("data-shot", "creator-hall");
+  await expect(page.locator("#creator-hall h2")).toHaveText("Behind the systems.");
   await page.getByRole("link", { name: "Enter the chamber" }).click();
   await expect(backdrop).toHaveAttribute("data-shot", "philosophy");
   await page.getByRole("button", { name: "Verify", exact: true }).click();
   await expect(
     page.getByText("The rings align to represent deterministic validation."),
   ).toBeVisible();
+  await page.getByRole("link", { name: "Continue to the Hall of Precision" }).click();
+  await expect(backdrop).toHaveAttribute("data-shot", "precision-hall");
+  await expect(page.locator("#precision-hall ol li")).toHaveCount(6);
+  await page.getByRole("link", { name: "Continue to the vault passage" }).click();
+  await expect(backdrop).toHaveAttribute("data-shot", "passage");
   await page.getByRole("link", { name: "Vault", exact: true }).click();
   await expect(backdrop).toHaveAttribute("data-shot", "gallery");
   await page.locator("#gallery").getByRole("link", { name: "Next instrument" }).click();
   await expect(backdrop).toHaveAttribute("data-shot", "exhibit-minchal");
+  await page
+    .locator("#exhibit-frontend-craft")
+    .getByRole("link", { name: "Continue to the library" })
+    .click();
+  await expect(backdrop).toHaveAttribute("data-shot", "knowledge-library");
+  await expect(page.locator("#knowledge-library dt")).toHaveCount(6);
+  await page.getByRole("link", { name: "Ascend to the terrace" }).click();
+  await expect(backdrop).toHaveAttribute("data-shot", "scholar-terrace");
+  await expect(page.locator("#scholar-terrace")).toContainText("Expected graduation 2029");
+  await page.getByRole("link", { name: "To the final gate" }).click();
+  await expect(backdrop).toHaveAttribute("data-shot", "contact");
+  await expect(page.getByRole("link", { name: "Email Santheesh" })).toBeVisible();
   expect(await canvas?.evaluate((node) => node.isConnected)).toBe(true);
   await page.locator("#exhibit-minchal").getByRole("link", { name: "Read case study" }).click();
   await expect(page).toHaveURL(/work\/minchal$/);
@@ -135,4 +157,23 @@ test("archive pages connect the exhibits, biography, and contact links", async (
     "href",
     "https://github.com/santheesh73",
   );
+});
+
+test("new deep links load their captured mobile fallback images", async ({ page, request }) => {
+  await page.setViewportSize({ width: 390, height: 780 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const id of expansionIds) {
+    await page.goto("/#" + id);
+    const backdrop = page.locator("[data-artwork]");
+    await expect(backdrop).toHaveAttribute("data-artwork", "still");
+    await expect(backdrop).toHaveAttribute("data-shot", id);
+    const section = page.locator("#" + id);
+    await expect(section.getByRole("heading", { level: 2 })).toBeVisible();
+    await expect(page.locator(".scene-still")).toHaveCSS(
+      "background-image",
+      new RegExp("mobile-" + id + "\\.webp"),
+    );
+    expect((await request.get("/plates/mobile-" + id + ".webp")).ok()).toBe(true);
+    expect((await request.get("/plates/" + id + ".webp")).ok()).toBe(true);
+  }
 });
