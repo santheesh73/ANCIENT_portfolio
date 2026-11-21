@@ -2,6 +2,7 @@ import type { Point } from "./masonry";
 import { projects } from "../../content/projects";
 
 export const chamberZ = -51;
+export const courtyardExtension = 9;
 export const hallZ = -88;
 export const gateZ = -177;
 export const bayDepths = [-3, -7.6, -12.2, -16.8, -21.4, -26, -30.6];
@@ -53,7 +54,7 @@ export const expansionIds = [
   "scholar-terrace",
 ] as const;
 
-export const route: Scene[] = [
+const outerRoute: Scene[] = [
   {
     id: "hero",
     name: "The frontier",
@@ -89,8 +90,15 @@ export const route: Scene[] = [
     eye: [3.15, 3.35, -23.2],
     look: [4.55, 3.05, -32.2],
     mobileAim: [1.6, -1.28],
-    via: [{ eye: [3.72, 3.48, -36.8], look: [3.05, 3.85, chamberZ - 1] }],
+    via: [
+      { eye: [3.3, 3.35, -30.8], look: [3.7, 3.65, -43] },
+      { eye: [4.85, 3.55, -37.4], look: [2.7, 5.25, -53] },
+      { eye: [4.05, 3.65, -44.7], look: [1.8, 4.55, -58] },
+    ],
   },
+];
+
+const innerRoute: Scene[] = [
   {
     id: "philosophy",
     name: "The armillary",
@@ -177,6 +185,22 @@ export const route: Scene[] = [
     wide: true,
     shortGate: true,
   },
+];
+
+function extendPastCourtyard({ eye, look }: Pose): Pose {
+  return {
+    eye: [eye[0], eye[1], eye[2] - courtyardExtension],
+    look: [look[0], look[1], look[2] - courtyardExtension],
+  };
+}
+
+export const route: Scene[] = [
+  ...outerRoute,
+  ...innerRoute.map((scene) => ({
+    ...scene,
+    ...extendPastCourtyard(scene),
+    via: scene.via?.map(extendPastCourtyard),
+  })),
 ];
 
 export const sceneById = new Map(route.map((scene) => [scene.id, scene]));
