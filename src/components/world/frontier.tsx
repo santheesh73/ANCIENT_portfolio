@@ -2,6 +2,7 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { DoubleSide, type Group, type ShaderMaterial } from "three";
 import { Arch, Blocks, noise, type Block, type Materials } from "./masonry";
+import { courtyardExtension } from "./route";
 
 const road: Block[] = Array.from({ length: 170 }, (_, i) => {
   const row = Math.floor(i / 5),
@@ -105,11 +106,13 @@ export function Frontier({ materials, moving }: { materials: Materials; moving: 
   return (
     <>
       <Blocks blocks={road} material={materials.sand} />
-      <Blocks blocks={connector} material={materials.floor} />
+      <group position-z={-courtyardExtension}>
+        <Blocks blocks={connector} material={materials.floor} />
+      </group>
       {[
         { x: 3.7, z: 7, r: 4.8, broken: true },
         { x: 3.6, z: -20.2, r: 3.05, broken: false },
-        { x: 0, z: -79.5, r: 2.75, broken: false },
+        { x: 0, z: -79.5 - courtyardExtension, r: 2.75, broken: false },
       ].map(({ x, z, r, broken }) => {
         const uprights: Block[] = Array.from({ length: 16 }, (_, i) => {
           const side = i < 8 ? -1 : 1,

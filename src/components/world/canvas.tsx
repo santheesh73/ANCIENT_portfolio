@@ -9,7 +9,7 @@ import { Atmosphere, Chamber, FinalGate, Hall, Observatory } from "./architectur
 import { Frontier } from "./frontier";
 import { CreatorHall, PrecisionHall, KnowledgeLibrary, ScholarTerrace } from "./expansion";
 import { createMaterials } from "./masonry";
-import { bayDepths, chamberZ, gateZ, hallZ, route, type SceneId } from "./route";
+import { bayDepths, chamberZ, courtyardExtension, gateZ, hallZ, route, type SceneId } from "./route";
 
 type SceneProps = {
   stage: number;
@@ -151,27 +151,29 @@ function Scene({ stage, checkpoint, motion, progress, ready, failed, throttled }
         <Observatory materials={materials} moving={motion} />
       </group>
       <CreatorHall materials={materials} compact={compact} />
-      <group position-z={chamberZ}>
-        <Chamber materials={materials} moving={motion} stage={stage} compact={compact} />
-      </group>
-      <PrecisionHall materials={materials} compact={compact} progress={progress} />
-      <group position-z={hallZ}>
-        <Hall materials={materials} compact={compact} />
-        {bayDepths.map((z, index) => (
-          <Artifact
-            key={z}
-            position={[3.05, 1.96, z + 0.38]}
-            index={index}
-            materials={materials}
-            moving={motion}
-          />
-        ))}
-      </group>
-      <KnowledgeLibrary materials={materials} compact={compact} />
-      <ScholarTerrace materials={materials} compact={compact} moving={motion} />
-      <group position-z={gateZ}>
-        <FinalGate materials={materials} />
-        <Artifact index={1} position={[0, 2.7, 1.1]} materials={materials} moving={motion} />
+      <group position-z={-courtyardExtension}>
+        <group position-z={chamberZ}>
+          <Chamber materials={materials} moving={motion} stage={stage} compact={compact} />
+        </group>
+        <PrecisionHall materials={materials} compact={compact} progress={progress} />
+        <group position-z={hallZ}>
+          <Hall materials={materials} compact={compact} />
+          {bayDepths.map((z, index) => (
+            <Artifact
+              key={z}
+              position={[3.05, 1.96, z + 0.38]}
+              index={index}
+              materials={materials}
+              moving={motion}
+            />
+          ))}
+        </group>
+        <KnowledgeLibrary materials={materials} compact={compact} />
+        <ScholarTerrace materials={materials} compact={compact} moving={motion} />
+        <group position-z={gateZ}>
+          <FinalGate materials={materials} />
+          <Artifact index={1} position={[0, 2.7, 1.1]} materials={materials} moving={motion} />
+        </group>
       </group>
     </>
   );

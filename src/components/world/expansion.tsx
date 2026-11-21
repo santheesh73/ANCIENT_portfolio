@@ -12,7 +12,7 @@ import {
   type Materials,
   type Point,
 } from "./masonry";
-import { route } from "./route";
+import { courtyardExtension, route } from "./route";
 
 type RoomProps = { materials: Materials; compact: boolean };
 const precisionIndex = route.findIndex((scene) => scene.id === "precision-hall");
@@ -44,6 +44,10 @@ function wallCourses(x: number, front: number, length: number, courses: number):
 const creatorFloor = tiles(11, 15, 1.14, -19).map((tile) => ({
   ...tile,
   position: [tile.position[0] + 3.6, -0.115, tile.position[2]] as Point,
+}));
+const courtyardFloor = tiles(7, 8, 1.14, -35.95).map((tile) => ({
+  ...tile,
+  position: [tile.position[0] + 3.6, -0.125, tile.position[2]] as Point,
 }));
 const creatorWalls = [...wallCourses(-3.1, -20, 14, 11), ...wallCourses(10.2, -20, 14, 11)];
 const creatorCeiling: Block[] = [-1, 1].flatMap((side) =>
@@ -101,6 +105,7 @@ export function CreatorHall({ materials, compact }: RoomProps) {
   return (
     <group>
       <Blocks blocks={creatorFloor} material={materials.floor} />
+      <Blocks blocks={courtyardFloor} material={materials.floor} />
       <Blocks blocks={creatorWalls} material={materials.sand} />
       <Blocks blocks={creatorCeiling} material={materials.dark} />
       <Columns columns={creatorColumns} materials={materials} pale />
@@ -175,7 +180,7 @@ function PrecisionInstruments({
 }) {
   const rigs = useRef<Array<Group | null>>([]);
   useFrame(({ camera }, delta) => {
-    if (Math.abs(camera.position.z + 71) > 19) return;
+    if (Math.abs(camera.position.z + 71 + courtyardExtension) > 19) return;
     const local = Math.max(0, progress.current - indexOffset);
     for (let index = 0; index < rigs.current.length; index++) {
       const rig = rigs.current[index];
@@ -258,7 +263,7 @@ export function PrecisionHall({
           <torusGeometry args={[radius, 0.016, 6, 64]} />
         </mesh>
       ))}
-      <Detail z={-71}>
+      <Detail z={-71 - courtyardExtension}>
         <pointLight
           position={[0.5, 6.8, -70.2]}
           color="#ffd39b"
@@ -411,7 +416,7 @@ export function KnowledgeLibrary({ materials }: RoomProps) {
           material={materials.edge}
         />
       ))}
-      <Detail z={libraryCenter}>
+      <Detail z={libraryCenter - courtyardExtension}>
         <pointLight
           position={[0.8, 6.5, -135.5]}
           color="#ffd5a1"
@@ -453,7 +458,11 @@ const terraceRails: Block[] = Array.from({ length: 32 }, (_, i) => {
 export function ScholarTerrace({ materials, moving }: RoomProps & { moving: boolean }) {
   const mount = useRef<Group>(null);
   useFrame(({ camera }, delta) => {
-    if (!mount.current || !moving || Math.abs(camera.position.z - terraceCenter) > 21) return;
+    if (
+      !mount.current ||
+      !moving ||
+      Math.abs(camera.position.z - terraceCenter + courtyardExtension) > 21
+    ) return;
     mount.current.rotation.y = MathUtils.damp(mount.current.rotation.y, 0.59, 0.46, delta);
     mount.current.rotation.z = MathUtils.damp(mount.current.rotation.z, -0.03, 0.44, delta);
   });
@@ -461,7 +470,7 @@ export function ScholarTerrace({ materials, moving }: RoomProps & { moving: bool
     <>
       <Blocks blocks={terraceStairs} material={materials.floor} bevel />
       <Blocks blocks={terraceRails} material={materials.sand} bevel />
-      <Detail z={terraceCenter}>
+      <Detail z={terraceCenter - courtyardExtension}>
         <mesh position={[2.85, 0.69, -160.6]} material={materials.dark} receiveShadow>
           <cylinderGeometry args={[1.81, 2.12, 1.35, 48]} />
         </mesh>

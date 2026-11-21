@@ -298,6 +298,9 @@ body:has(.expedition) .site-header {
     background-image: var(--scene-plate-mobile, var(--scene-plate));
   }
 }
+.creator-stop {
+  margin-bottom: 28svh;
+}
 .creator-stop h2,
 .precision-stop h2,
 .library-stop h2,
